@@ -34,23 +34,6 @@ XgenA2 i j p1 p aoi21
 
 .subckt adder32 op0 a[31:0] b[31:0] s[31:0] z v n
 
-
-* generate z
-XZorCascade s[7:0] s[15:8] s[23:16] s[31:24] w[7:0] nor4
-X4AndCascade w[7:6] w[5:4] w[3:2] w[1:0] int[1:0] nand4
-XFinalZ int1 int0 z nor2
-
-* generate v
-XnotS31 s31 ns31 inverter
-XnotA31 a31 na31 inverter
-XnotXB31 xb31 nxb31 inverter
-XVckt1 a31 xb31 ns31 vp1 nand3
-XVckt2 na31 nxb31 s31 vp2 nand3
-XVckt vp1 vp2 v nand2
-
-* generate n
-.connect s31 n
-
 * Hex inversion for high fidelity pipe-lining
 XinvB b[31:0] ib[31:0] inverter
 Xinvop0 op0 opmid inverter_2
@@ -186,5 +169,21 @@ Xsum01 p[0] op0 psum0 nor2
 Xsum02 p[0] op0 psum0 s[0] aoi21
 Xsum1 p[31:1] r7g[30:0] psum[31:1] nor2
 Xsum2 p[31:1] r7g[30:0] psum[31:1] s[31:1] aoi21
+
+* generate z
+XZorCascade s[7:0] s[15:8] s[23:16] s[31:24] w[7:0] nor4
+X4AndCascade w[7:6] w[5:4] w[3:2] w[1:0] int[1:0] nand4
+XFinalZ int1 int0 z nor2
+
+* generate v
+XnotS31 s31 ns31 inverter
+XnotA31 a31 na31 inverter
+XnotXB31 xb31 nxb31 inverter
+XVckt1 a31 xb31 ns31 vp1 nand3
+XVckt2 na31 nxb31 s31 vp2 nand3
+XVckt vp1 vp2 v nand2
+
+* generate n
+.connect s31 n
 
 .ends
