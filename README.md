@@ -5,17 +5,6 @@ Design challenge for the 50.002 module for fastest 2-SAT solver (Java) and the b
 
 </br >
 
-### Relaxed Papadimitriou's Random Walk 2-SAT Solver (Java)
-#### Features:
-1) Algorithm based on Papadimitriou's Random Walk approach to boolean satisfiability.
-2) Relaxed boolean satisfiability problem to solve 2-SAT only.
-3) Further relaxation of 2-SAT problem to solve Ripple-Carry Adder verification based on S8 Satisfiability property (Standard test case used to time solver).
-4) Optimisation of otherwise O(n^2) standard inner/outer loops to O(log log n) for solving standard test cases to achieve best solver time at the cost of logic completeness.
-5) Random element of solver results in variance of solver timings. Average timing is recommended. Else, cherry-pick shortest single-run timings.
-6) Solver guaranteed to return accurate results for relaxed test cases only.  
-
-</br >
-
 ### Optimised Hybrid Han-Carlson 32-bit Adder (JSim)
 #### Features:
 1) Base Hybrid Han-Carlson architecture is commercially used in adder modules of early 32-Bit Intel Pentium 4 CPUs.
@@ -25,6 +14,17 @@ Design challenge for the 50.002 module for fastest 2-SAT solver (Java) and the b
 5) Exhaustive approach for buffering signals between cells using gradient descent for efficient load distribution.
 6) Enhanced Post-Processing stage with 4-to-1 cascading design with full inverting logic & AOI21 implementation.
 7) Selective revision of White cell definitions to non-inverting logic based on usage frequency per operation.
+
+</br >
+
+### Relaxed Papadimitriou's Random Walk 2-SAT Solver (Java)
+#### Features:
+1) Algorithm based on Papadimitriou's Random Walk approach to boolean satisfiability.
+2) Relaxed boolean satisfiability problem to solve 2-SAT only.
+3) Further relaxation of 2-SAT problem to solve Ripple-Carry Adder verification based on S8 Satisfiability property (Standard test case used to time solver).
+4) Optimisation of otherwise O(n^2) standard inner/outer loops to O(log log n) for solving standard test cases to achieve best solver time at the cost of logic completeness.
+5) Random element of solver results in variance of solver timings. Average timing is recommended. Else, cherry-pick shortest single-run timings.
+6) Solver guaranteed to return accurate results for relaxed test cases only.  
 
 </br >
 
