@@ -15,6 +15,10 @@ Design challenge for the 50.002 module for fastest 2-SAT solver (Java) and the b
 6) Enhanced Post-Processing stage with 4-to-1 cascading design with full inverting logic & AOI21 implementation.
 7) Selective revision of White cell definitions to non-inverting logic based on usage frequency per operation.
 
+#### Proposed Improvements:
+1) Radix-2 and/or Radix-4 redesign of the Carry Chain Computation stage to reduce fan-out with sparseness.
+2) Hybridisation with Lynch–Swartzlander quaternary logic spanning tree adder architecture.
+
 </br >
 
 ### Relaxed Papadimitriou's Random Walk 2-SAT Solver (Java)
@@ -26,12 +30,17 @@ Design challenge for the 50.002 module for fastest 2-SAT solver (Java) and the b
 5) Random element of solver results in variance of solver timings. Average timing is recommended. Else, cherry-pick shortest single-run timings.
 6) Solver guaranteed to return accurate results for relaxed test cases only.  
 
+#### Proposed Improvements:
+1) Usage of memomisation and decorators to speed up "coin flip" function call at each random walk step.
+2) Usage of decrement to zero while loops and other micro-optimisations. 
+
 </br >
 
 ### Further readings:
 #### Papadimitriou's Algorithm:
-https://cseweb.ucsd.edu/classes/sp13/cse200-a/handouts/lec-15-0520.pdf </br >
-https://www.coursera.org/lecture/algorithms-npcomplete/analysis-of-papadimitrious-algorithm-YltoR
+http://www.cs.cornell.edu/selman/papers/pdf/02.cp.randomwalk.pdf </br >
+https://www.coursera.org/lecture/algorithms-npcomplete/analysis-of-papadimitrious-algorithm-YltoR </br >
+https://cseweb.ucsd.edu/classes/sp13/cse200-a/handouts/lec-15-0520.pdf 
 #### S8 Satisfiability property:
 https://books.google.com.sg/books?id=0LpsXQV2kXAC&pg=PA177&lpg=PA177&dq=s8+set+satisfiability&source=bl&ots=bUhAYXmSWn&sig=R35gTZRXUxuD7SNaaKiqCcmjzm4&hl=en&sa=X&ved=2ahUKEwiRkrHt9szeAhXLPo8KHVFXDw4Q6AEwC3oECAgQAQ#v=onepage&q=s8%20set%20satisfiability&f=false
 
