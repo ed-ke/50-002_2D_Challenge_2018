@@ -10,7 +10,6 @@ Xaoi_inv pi gj gi g_inv aoi21
 Xaoi g_inv gi_out inverter
 Xnand1 pi pj n_p nand2
 Xnand2 n_p n_p pi_out nand2
-
 .ends
 
 * Definition of a grey cell
@@ -26,6 +25,7 @@ XgenA i j p1 nor2
 XgenA2 i j p1 p aoi21
 .ends
 
+* Definition of a simple wire 
 .subckt wire a b
 .connect a b
 .ends
@@ -51,7 +51,7 @@ XVckt vp1 vp2 v nand2
 * generate n
 .connect s31 n
 
-* Hex inversion for high fidelity pipelining
+* Hex inversion for high fidelity pipe-lining
 XinvB b[31:0] ib[31:0] inverter
 Xinvop0 op0 opmid inverter_2
 Xinvopmid1 opmid op1 inverter_4
