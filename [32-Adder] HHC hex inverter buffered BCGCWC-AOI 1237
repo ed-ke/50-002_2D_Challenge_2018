@@ -1,0 +1,190 @@
+.include "nominal.jsim"
+.include "stdcell.jsim"
+.include "2dcheckoff_2p3ns.jsim"
+*.include "lab3adder.jsim"
+
+
+* Definition of a black cell
+.subckt bc pi gi pj gj pi_out gi_out
+Xaoi_inv pi gj gi g_inv aoi21
+Xaoi g_inv gi_out inverter
+Xnand1 pi pj n_p nand2
+Xnand2 n_p n_p pi_out nand2
+
+.ends
+
+* Definition of a grey cell
+.subckt gc pi gi gj gi_out
+Xaoi_inv pi gj gi gi_inv aoi21
+Xaoi gi_inv gi_out inverter
+.ends
+
+* Definition of a white cell (generates P and G)
+.subckt wc i j p g
+XgenG i j g and2
+XgenA i j p1 nor2
+XgenA2 i j p1 p aoi21
+.ends
+
+.subckt wire a b
+.connect a b
+.ends
+
+* Hybrid Han Carlson (Top & bottom: Brent-Kung; Middle: Kogge-Stone)
+
+.subckt adder32 op0 a[31:0] b[31:0] s[31:0] z v n
+
+
+* generate z
+XZorCascade s[7:0] s[15:8] s[23:16] s[31:24] w[7:0] nor4
+X4AndCascade w[7:6] w[5:4] w[3:2] w[1:0] int[1:0] nand4
+XFinalZ int1 int0 z nor2
+
+* generate v
+XnotS31 s31 ns31 inverter
+XnotA31 a31 na31 inverter
+XnotXB31 xb31 nxb31 inverter
+XVckt1 a31 xb31 ns31 vp1 nand3
+XVckt2 na31 nxb31 s31 vp2 nand3
+XVckt vp1 vp2 v nand2
+
+* generate n
+.connect s31 n
+
+* Hex inversion for high fidelity pipelining
+XinvB b[31:0] ib[31:0] inverter
+Xinvop0 op0 opmid inverter_2
+Xinvopmid1 opmid op1 inverter_4
+Xinv2opmid2 opmid op2 inverter_2
+Xinv2opmid3 opmid op3 inverter_2
+Xinv2opmid4 opmid op4 inverter
+XselBa op1#8 b[7:0] ib[7:0] xb[7:0] mux2
+XselBb op2#8 b[15:8] ib[15:8] xb[15:8] mux2
+XselBc op3#8 b[23:16] ib[23:16] xb[23:16] mux2
+XselBd op4#8 b[31:24] ib[31:24] xb[31:24] mux2
+
+
+* generate p and g signals for bit 31:1
+XgenPandG a[31:1] xb[31:1] p[31:1] g[31:1] wc
+
+* prepare the 2's complement of B by adding in the op0 as carry
+Xpng0 a0 xb0 p0 g0pre wc
+Xprep p0 g0pre op0 g0 gc
+
+* row 1
+Xr1w g[30:0:2] r1g[30:0:2] wire
+Xr1wb p[30:0:2] r1p[30:0:2] wire
+Xr1g p1 g1 g0 r1g1 gc
+Xr1 p[31:3:2] g[31:3:2] p[30:2:2] g[30:2:2] r1p[31:3:2] r1g[31:3:2] bc
+
+* row 2
+Xr2waa r1g[2] r2g[2] wire
+Xr2wa2 r1p[2:0:2] r2p[2:0:2] wire 
+Xr2wab r1g[1:0] r2g[1:0] buffer
+Xr2wb r1g[6:4] r2g[6:4] wire 
+Xr2wb2 r1p[6:4] r2p[6:4] wire
+Xr2wc r1g[10:8] r2g[10:8] wire 
+Xr2wc2 r1p[10:8] r2p[10:8] wire 
+Xr2wd r1g[14:12] r2g[14:12] wire 
+Xr2wd2 r1p[14:12] r2p[14:12] wire 
+Xr2we r1g[18:16] r2g[18:16] wire 
+Xr2we2 r1p[18:16] r2p[18:16] wire 
+Xr2wf r1g[22:20] r2g[22:20] wire 
+Xr2wf2 r1p[22:20] r2p[22:20] wire
+Xr2wg r1g[26:24] r2g[26:24] wire 
+Xr2wg2 r1p[26:24] r2p[26:24] wire 
+Xr2wh r1g[30:28] r2g[30:28] wire 
+Xr2wh2 r1p[30:28] r2p[30:28] wire
+Xr2g r1p[3] r1g[3] r1g[1] r2g[3] gc
+Xr2 r1p[31:7:4] r1g[31:7:4] r1p[29:5:4] r1g[29:5:4] r2p[31:7:4] r2g[31:7:4] bc
+
+* row 3
+Xr3wa0 r2g[2:0] r3g[2:0] wire
+Xr3wa r2g[6:4] r3g[6:4] wire
+Xr3wab r2g[3] r3g[3] wire 
+Xr3wa2 r2p[6:4] r3p[6:4] wire
+Xr3wa3 r2p[2:0:2] r3p[2:0:2] wire
+Xr3wb r2g[10:8] r3g[10:8] wire 
+Xr3wb2 r2p[10:8] r3p[10:8] wire 
+Xr3wc r2g[14:12] r3g[14:12] wire 
+Xr3wc2 r2p[14:12] r3p[14:12] wire 
+Xr3wd r2g[18:16] r3g[18:16] wire 
+Xr3wd2 r2p[18:16] r3p[18:16] wire 
+Xr3we r2g[22:20] r3g[22:20] wire 
+Xr3we2 r2p[22:20] r3p[22:20] wire 
+Xr3wf r2g[26:24] r3g[26:24] wire 
+Xr3wf2 r2p[26:24] r3p[26:24] wire 
+Xr3wg r2g[30:28] r3g[30:28] wire 
+Xr3wg2 r2p[30:28] r3p[30:28] wire 
+Xr3g r2p[7] r2g[7] r2g[3] r3g[7] gc 
+Xr3 r2p[31:11:4] r2g[31:11:4] r2p[27:7:4] r2g[27:7:4] r3p[31:11:4] r3g[31:11:4] bc
+
+* row 4
+Xr4wa0 r3g[6:0] r4g[6:0] wire
+Xr4wa r3g[10:8] r4g[10:8] wire
+Xr4ab r3g[7] r4g[7] wire
+Xr4wa2 r3p[10:8] r4p[10:8] wire
+Xr4wa3 r3p[6:4] r4p[6:4] wire
+Xr4wa4 r3p[2:0:2] r4p[2:0:2] wire 
+Xr4wb r3g[14:12] r4g[14:12] wire 
+Xr4wb2 r3p[14:12] r4p[14:12] wire 
+Xr4wc r3g[18:16] r4g[18:16] wire 
+Xr4wc2 r3p[18:16] r4p[18:16] wire 
+Xr4wd r3g[22:20] r4g[22:20] wire 
+Xr4wd2 r3p[22:20] r4p[22:20] wire 
+Xr4we r3g[26:24] r4g[26:24] wire 
+Xr4we2 r3p[26:24] r4p[26:24] wire 
+Xr4wf r3g[30:28] r4g[30:28] wire 
+Xr4wf2 r3p[30:28] r4p[30:28] wire 
+Xrwg r3p[15:11:4] r3g[15:11:4] r3g[7:3:4] r4g[15:11:4] gc
+Xr4 r3p[31:19:4] r3g[31:19:4] r3p[23:11:4] r3g[23:11:4] r4p[31:19:4] r4g[31:19:4] bc
+
+* row 5
+Xr5wa00 r4g[10:0] r5g[10:0] wire
+Xr5wa0 r4g[14:12] r5g[14:12] wire
+Xr5wa r4g[18:16] r5g[18:16] wire
+Xr5wab r4g[15:11:4] r5g[15:11:4] wire
+Xr5wa2 r4p[18:16] r5p[18:16] wire
+Xr5wa3 r4p[14:12] r5p[14:12] wire
+Xr5wa4 r4p[10:8] r5p[10:8] wire
+Xr5wa5 r4p[6:4] r5p[6:4] wire
+Xr5wa6 r4p[2:0:2] r5p[2:0:2] wire 
+Xr5wb r4g[22:20] r5g[22:20] wire
+Xr5wb2 r4p[22:20] r5p[22:20] wire
+Xr5wc r4g[26:24] r5g[26:24] wire
+Xr5wc2 r4p[26:24] r5p[26:24] wire
+Xr5wd r4g[30:28] r5g[30:28] wire
+Xr5wd2 r4p[30:28] r5p[30:28] wire
+Xr5 r4p[31:19:4] r4g[31:19:4] r4g[15:3:4] r5g[31:19:4] gc
+
+* row 6
+Xr6wa r5g[4:0] r6g[4:0] wire
+Xr6a2 r5p[30:2:2] r6p[30:2:2] wire
+Xr6wb r5g[8:6:2] r6g[8:6:2] wire
+Xr6wbb r5g[7] r6g[7] buffer
+Xr6wc r5g[12:10] r6g[12:10] wire
+Xr6wd r5g[16:14] r6g[16:14] wire
+Xr6we r5g[20:18:2] r6g[20:18:2] wire
+Xr6wf r5g[24:22:2] r6g[24:22:2] wire
+Xr6wg r5g[30:26:2] r6g[30:26:2] wire
+Xr6ab r5g[23:19:4] r6g[23:19:4] wire
+Xr6abb r5g[27] r6g[27] buffer
+Xr6ac r5g[31] r6g[31] wire
+Xr6 r5p[29:5:4] r5g[29:5:4] r5g[27:3:4] r6g[29:5:4] gc
+
+* row 7
+Xr7wa r6g[1:0] r7g[1:0] wire
+Xr7wb r6g[31:3:4] r7g[31:3:4] wire
+Xr7wab r6g[13:5:4] r7g[13:5:4] wire
+Xr7wabb r6g[17] r7g[17] buffer
+Xr7wac r6g[25:21:4] r7g[25:21:4] wire
+Xr7wad r6g[29] r7g[29] buffer
+Xr7 r6p[30:2:2] r6g[30:2:2] r6g[29:1:2] r7g[30:2:2] gc
+
+* Post processing
+Xsum01 p[0] op0 psum0 nor2
+Xsum02 p[0] op0 psum0 s[0] aoi21
+Xsum1 p[31:1] r7g[30:0] psum[31:1] nor2
+Xsum2 p[31:1] r7g[30:0] psum[31:1] s[31:1] aoi21
+
+.ends
