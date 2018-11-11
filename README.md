@@ -38,3 +38,7 @@ https://books.google.com.sg/books?id=0LpsXQV2kXAC&pg=PA177&lpg=PA177&dq=s8+set+s
 #### Hybrid Han Carlson 32-bit Adder Architecture:
 https://ieeexplore.ieee.org/document/6292146 </br >
 http://www.iraj.in/journal/journal_file/journal_pdf/1-159-143600590074-77.pdf
+
+</br >
+
+Tags: java, 32-bit adder, boolean satisfiability, papadimitriou, jsim, 2D design challenge, sutd, mit, han-carlson, istd, 50.002 Computational Structures
