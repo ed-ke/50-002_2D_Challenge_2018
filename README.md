@@ -31,8 +31,9 @@ Design challenge for the 50.002 module for fastest 2-SAT solver (Java) and the b
 6) Solver guaranteed to return accurate results for relaxed test cases only.  
 
 #### Proposed Improvements:
-1) Usage of memomisation and decorators to speed up "coin flip" function call at each random walk step.
-2) Usage of decrement to zero while loops and other micro-optimisations. 
+1) Usage of memomisation and decorators to speed up "coin flip" function call at each random walk step and CNF parsing.
+2) Usage of advanced pseudo-random number generators like Xoroshiro128+ with direct sign testing for random booleans instead of conditionals with the default random package.
+3) Usage of decrement to zero while loops and other micro-optimisations. 
 
 </br >
 
