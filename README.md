@@ -41,4 +41,4 @@ http://www.iraj.in/journal/journal_file/journal_pdf/1-159-143600590074-77.pdf
 
 </br >
 
-Tags: java, 32-bit adder, boolean satisfiability, papadimitriou, jsim, 2D design challenge, sutd, mit, han-carlson, istd, 50.002 Computational Structures
+Tags: java, 32-bit adder, boolean satisfiability, 2-SAT, papadimitriou, random, jsim, 2D design challenge, sutd, mit, han-carlson, istd, 50.002 Computational Structures
