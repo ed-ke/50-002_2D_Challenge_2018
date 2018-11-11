@@ -1,4 +1,4 @@
-# 50-002_2D_Challenge_2018
+# 50-002 2D Challenge 2018
 Design challenge for the 50.002 module for fastest 2-SAT solver (Java) and the best performance-area ratio for a 32-bit adder (JSim).
 
 #### 2D Challenge scores: ~7ms (Single-run) & ~0.1ms (10k mean) for 2-SAT Solver; 1.237e4 (ns*u^2) for 32-bit Adder 
