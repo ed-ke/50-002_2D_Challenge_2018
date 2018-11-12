@@ -1,4 +1,4 @@
-# 50-002 2D Challenge 2018
+# 50.002 2D Challenge 2018
 Design challenge for the 50.002 module for fastest 2-SAT solver (Java) and the best performance-area ratio for a 32-bit adder (JSim).
 
 #### 2D Challenge scores: ~7ms (Single-run) & ~0.1ms (10k mean) for 2-SAT Solver; 1.237e4 (ns*u^2) for 32-bit Adder 
@@ -28,12 +28,13 @@ Design challenge for the 50.002 module for fastest 2-SAT solver (Java) and the b
 3) Further relaxation of 2-SAT problem to solve Ripple-Carry Adder verification based on S8 Satisfiability property (Standard test case used to time solver).
 4) Optimisation of otherwise O(n^2) standard inner/outer loops to O(log log n) for solving standard test cases to achieve best solver time at the cost of logic completeness.
 5) Random element of solver results in variance of solver timings. Average timing is recommended. Else, cherry-pick shortest single-run timings.
-6) Solver guaranteed to return accurate results for relaxed test cases only. Revert to standard loops for generic test cases.  
+6) Solver guaranteed to return accurate results for large relaxed test cases only. Revert to standard loops for generic test cases.  
 
 #### Proposed Improvements:
-1) Memomisation and decorators to speed up boolean flip calls at each random walk step.
-2) Usage of advanced (pseudo) random number generators like Xoroshiro128+ with direct sign testing for random booleans instead of conditionals with the default random package.
-3) Decrement to zero while loops and other micro-optimisations. 
+1) Dynamic switching of loops based on test cases for logic completeness.
+2) Memomisation and decorators to speed up boolean flip calls at each random walk step.
+3) Usage of advanced (pseudo) random number generators like Xoroshiro128+ with direct sign testing for random booleans instead of conditionals with the default random package.
+4) Decrement to zero while loops and other micro-optimisations. 
 
 </br >
 
